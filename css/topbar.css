@@ -1,6 +1,3 @@
-/* =====================================================
-   topbar.css — Top Navigation Bar
-   ===================================================== */
 
 #topbar {
   position: fixed;
@@ -27,9 +24,10 @@
   flex-shrink: 0;
 }
 
-.tb-spacer { flex: 1; }
+.tb-spacer {
+  flex: 1;
+}
 
-/* Navigation arrow buttons */
 .tb-nav-btn {
   width: 28px;
   height: 28px;
@@ -44,11 +42,21 @@
   flex-shrink: 0;
   transition: background var(--transition), color var(--transition);
 }
-.tb-nav-btn:hover { background: var(--bg3); color: var(--text1); }
-.tb-nav-btn:disabled { opacity: 0.3; cursor: default; }
-.tb-nav-btn:disabled:hover { background: transparent; }
 
-/* Zoom slider */
+.tb-nav-btn:hover {
+  background: var(--bg3);
+  color: var(--text1);
+}
+
+.tb-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.tb-nav-btn:disabled:hover {
+  background: transparent;
+}
+
 .tb-zoom-wrap {
   display: flex;
   align-items: center;
@@ -75,6 +83,7 @@
   outline: none;
   cursor: pointer;
 }
+
 .tb-zoom-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -86,10 +95,15 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   transition: transform var(--transition);
 }
-.tb-zoom-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
 
-/* Search input */
-.tb-search-wrap { position: relative; flex-shrink: 0; }
+.tb-zoom-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.tb-search-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
 
 .tb-search-icon {
   position: absolute;
@@ -114,14 +128,17 @@
   outline: none;
   transition: width var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
+
 #searchInput:focus {
   width: 240px;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15);
 }
-#searchInput::placeholder { color: var(--text3); }
 
-/* Topbar buttons */
+#searchInput::placeholder {
+  color: var(--text3);
+}
+
 .tb-btn {
   height: 30px;
   padding: 0 12px;
@@ -137,8 +154,25 @@
   flex-shrink: 0;
   transition: background var(--transition), transform var(--transition);
 }
-.tb-btn:active { transform: scale(0.97); }
-.tb-btn-primary { background: var(--accent); color: #fff; }
-.tb-btn-primary:hover { background: #0077ed; }
-.tb-btn-secondary { background: var(--bg3); color: var(--text1); }
-.tb-btn-secondary:hover { background: var(--surface2); }
+
+.tb-btn:active {
+  transform: scale(0.97);
+}
+
+.tb-btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.tb-btn-primary:hover {
+  background: #0077ed;
+}
+
+.tb-btn-secondary {
+  background: var(--bg3);
+  color: var(--text1);
+}
+
+.tb-btn-secondary:hover {
+  background: var(--surface2);
+}
