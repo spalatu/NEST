@@ -1,13 +1,45 @@
 window.addEventListener('load', function () {
+  renderLeftSidebar();
+  wireTopbar();
+  wireContextMenu();
+  wireGalleryDragDrop();
+  wireKeyboard();
   renderGallery();
+  renderRightSidebar();
+  updateNavButtons();
 });
 
-// Stubs for logic not yet developed in Step 3
-function renderRightSidebar() {}
-function renderLeftSidebar() {}
-function updateNavButtons() {}
-function showContextMenu(e, id) {}
-function confirmDeleteFolder(id) {}
-function openModal(id) {}
-function closeModal(id) {}
-function exportImage(img, format) {}
+function wireTopbar() {
+  document.getElementById('searchInput').addEventListener('input', function (e) {
+    state.search = e.target.value;
+    renderGallery();
+  });
+
+  document.getElementById('addFolderBtn').addEventListener('click', function () {
+    createFolderInline(null);
+  });
+}
+
+function wireContextMenu() {
+  document.addEventListener('click', hideContextMenu);
+  document.getElementById('ctxTrash').addEventListener('click', function () {
+    if (contextTargetId) trashImage(contextTargetId);
+    hideContextMenu();
+  });
+}
+
+function wireGalleryDragDrop() {
+
+}
+
+function wireKeyboard() {
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Backspace' && state.selectedId && !e.target.closest('input, textarea')) {
+      trashImage(state.selectedId);
+    }
+  });
+}
+
+
+function openModal() { }
+function closeModal() { }
