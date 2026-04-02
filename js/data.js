@@ -1,14 +1,6 @@
 var state = {
-  images: [
-    {
-      id: "img1", title: "Hardcoded Nature", src: "https://images.unsplash.com/photo-1549490349-8643362247b5?w=500&q=80",
-      width: 500, height: 333, fileSize: "120 KB", fileType: "jpeg",
-      description: 'Test description', notes: '', source: '', tags: ['nature'], folder: null, colors: [],
-      dateImported: new Date().toISOString(), dateCreated: new Date().toISOString(), dateModified: new Date().toISOString(),
-      trashed: false
-    }
-  ],
-  folders: [{ id: "f1", name: "Vacation" }],
+  images: [],
+  folders: [],
   activeFolder: 'all',
   selectedId: null,
   zoom: 100,
@@ -20,9 +12,7 @@ var state = {
 var LS_IMAGES = 'nest_images';
 var LS_FOLDERS = 'nest_folders';
 
-function loadStorage() {
-  return;
-
+function loadStorage() { return;
   var imagesRaw = localStorage.getItem(LS_IMAGES);
   var foldersRaw = localStorage.getItem(LS_FOLDERS);
 
@@ -39,9 +29,7 @@ function loadStorage() {
   }
 }
 
-function saveImages() {
-  return;
-
+function saveImages() { return;
   try {
     localStorage.setItem(LS_IMAGES, JSON.stringify(state.images));
   } catch (err) {
@@ -50,9 +38,7 @@ function saveImages() {
   }
 }
 
-function saveFolders() {
-  return;
-
+function saveFolders() { return;
   try {
     localStorage.setItem(LS_FOLDERS, JSON.stringify(state.folders));
   } catch (err) {
@@ -73,7 +59,7 @@ function updateImage(id, patch) {
       break;
     }
   }
-
+  
   if (idx === -1) {
     return;
   }
@@ -83,13 +69,13 @@ function updateImage(id, patch) {
     currentImage[key] = patch[key];
   }
   currentImage.dateModified = nowISO();
-
+  
   state.images[idx] = currentImage;
   saveImages();
 
   renderLeftSidebar();
   if (state.selectedId === id) {
-    renderRightSidebar();
+     renderRightSidebar();
   }
 }
 
@@ -107,7 +93,7 @@ function trashImage(id) {
 function getFilteredImages() {
   var q = state.search.toLowerCase().trim();
   var sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-
+  
   var filtered = [];
 
   for (var i = 0; i < state.images.length; i++) {
@@ -123,7 +109,7 @@ function getFilteredImages() {
         keep = false;
       } else {
         if (state.activeFolder === 'all') {
-
+          // keep is true
         } else if (state.activeFolder === 'uncategorized') {
           if (img.folder) {
             keep = false;
@@ -149,12 +135,12 @@ function getFilteredImages() {
       var title = img.title.toLowerCase();
       var desc = "";
       if (img.description) {
-        desc = img.description.toLowerCase();
+         desc = img.description.toLowerCase();
       }
-
+      
       var inTitle = title.includes(q);
       var inDesc = desc.includes(q);
-
+      
       if (inTitle === false && inDesc === false) {
         keep = false;
       }
@@ -174,16 +160,16 @@ function getFolderCount(folderId) {
 
   for (var i = 0; i < state.images.length; i++) {
     var img = state.images[i];
-
+    
     if (folderId === 'trash') {
-      if (img.trashed === true) {
-        count++;
-      }
-      continue;
+       if (img.trashed === true) {
+          count++;
+       }
+       continue;
     }
-
+    
     if (img.trashed === true) {
-      continue;
+       continue;
     }
 
     if (folderId === 'all') {
@@ -207,7 +193,7 @@ function getFolderCount(folderId) {
       }
     }
   }
-
+  
   return count;
 }
 

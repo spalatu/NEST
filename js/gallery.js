@@ -36,7 +36,7 @@ function renderGallery() {
   var colCount = getColumnCount();
   var padding = 16;
   var gap = 10;
-
+  
   var availableWidth = gallery.clientWidth - (padding * 2) - (gap * (colCount - 1));
   var colWidth = Math.floor(availableWidth / colCount);
 
@@ -45,7 +45,7 @@ function renderGallery() {
     col.className = 'masonry-col';
     col.style.width = colWidth + 'px';
     inner.appendChild(col);
-
+    
     masonryColumns.push(0);
     masonryColumnEls.push(col);
   }
@@ -58,7 +58,7 @@ function renderGallery() {
 function placeCardInMasonry(img, colWidth) {
   var shortestHeight = masonryColumns[0];
   var shortestIndex = 0;
-
+  
   for (var i = 1; i < masonryColumns.length; i++) {
     if (masonryColumns[i] < shortestHeight) {
       shortestHeight = masonryColumns[i];
@@ -73,9 +73,9 @@ function placeCardInMasonry(img, colWidth) {
   if (img.width && img.height) {
     aspectRatio = img.width / img.height;
   }
-
+  
   var imageHeight = colWidth / aspectRatio;
-  masonryColumns[shortestIndex] = masonryColumns[shortestIndex] + imageHeight + 49 + 10;
+  masonryColumns[shortestIndex] = masonryColumns[shortestIndex] + imageHeight + 49 + 10; // 49=info height, 10=gap
 }
 
 function buildCard(img, colWidth) {
@@ -87,11 +87,11 @@ function buildCard(img, colWidth) {
 
   var card = document.createElement('div');
   card.className = 'img-card';
-
+  
   if (state.selectedId === img.id) {
     card.className = card.className + ' selected';
   }
-
+  
   card.dataset.id = img.id;
 
   var imgEl = document.createElement('img');
@@ -102,15 +102,15 @@ function buildCard(img, colWidth) {
 
   var info = document.createElement('div');
   info.className = 'img-card-info';
-
+  
   var titleDiv = document.createElement('div');
   titleDiv.className = 'img-card-title';
   titleDiv.innerHTML = escapeHtml(img.title);
-
+  
   var dimsDiv = document.createElement('div');
   dimsDiv.className = 'img-card-dims';
   dimsDiv.innerHTML = img.width + 'x' + img.height;
-
+  
   info.appendChild(titleDiv);
   info.appendChild(dimsDiv);
 
@@ -152,7 +152,7 @@ function setZoom(value) {
 
 function exportImage(img, format) {
   var image = new Image();
-
+  
   image.onload = function () {
     var canvas = document.createElement('canvas');
     canvas.width = image.naturalWidth;
@@ -167,24 +167,24 @@ function exportImage(img, format) {
 
     var mimeType = 'image/jpeg';
     if (format === 'png') {
-      mimeType = 'image/png';
+       mimeType = 'image/png';
     }
-
+    
     var quality;
     if (format === 'jpg') {
-      quality = 0.92;
+       quality = 0.92;
     }
 
     var cleanTitle = "";
     for (var i = 0; i < img.title.length; i++) {
-      var charCode = img.title.charCodeAt(i);
-      if ((charCode > 47 && charCode < 58) ||
-        (charCode > 64 && charCode < 91) ||
-        (charCode > 96 && charCode < 123)) {
-        cleanTitle += img.title[i];
-      } else {
-        cleanTitle += "_";
-      }
+        var charCode = img.title.charCodeAt(i);
+        if ((charCode > 47 && charCode < 58) || 
+            (charCode > 64 && charCode < 91) || 
+            (charCode > 96 && charCode < 123)) {
+            cleanTitle += img.title[i];
+        } else {
+            cleanTitle += "_";
+        }
     }
     var fileName = cleanTitle + '.' + format;
 
@@ -195,13 +195,13 @@ function exportImage(img, format) {
         link.href = url;
         link.download = fileName;
         link.click();
-
-        setTimeout(function () {
-          URL.revokeObjectURL(url);
+        
+        setTimeout(function () { 
+           URL.revokeObjectURL(url); 
         }, 1000);
       }
     }, mimeType, quality);
   };
-
+  
   image.src = img.src;
 }
