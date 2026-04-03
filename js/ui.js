@@ -1,15 +1,15 @@
 function openModal(id) {
-  var modal = document.getElementById(id);
+  let modal = document.getElementById(id);
   modal.className = modal.className + ' open';
 }
 
 function closeModal(id) {
-  var modal = document.getElementById(id);
+  let modal = document.getElementById(id);
   modal.className = modal.className.replace(' open', '');
 }
 
 // ── Confirm dialog (replaces window.confirm) ──
-var confirmCallback = null;
+let confirmCallback = null;
 
 function showConfirm(title, message, actionLabel, callback) {
   confirmCallback = callback;
@@ -19,21 +19,21 @@ function showConfirm(title, message, actionLabel, callback) {
   openModal('confirmDialog');
 }
 
-var contextTargetId = null;
+let contextTargetId = null;
 
 function showContextMenu(e, imageId) {
   e.preventDefault();
   contextTargetId = imageId;
 
-  var menu = document.getElementById('contextMenu');
+  let menu = document.getElementById('contextMenu');
   menu.style.display = 'block';
 
-  var x = e.clientX;
+  let x = e.clientX;
   if (x > window.innerWidth - menu.offsetWidth - 8) {
      x = window.innerWidth - menu.offsetWidth - 8;
   }
   
-  var y = e.clientY;
+  let y = e.clientY;
   if (y > window.innerHeight - menu.offsetHeight - 8) {
      y = window.innerHeight - menu.offsetHeight - 8;
   }
@@ -48,13 +48,13 @@ function hideContextMenu() {
 }
 
 // ── Tag popover ──
-var activeTagPopover = null;
+let activeTagPopover = null;
 
 function openTagPopover(imageId, anchorBtn) {
   closePopovers();
 
-  var img = null;
-  for (var i = 0; i < state.images.length; i++) {
+  let img = null;
+  for (let i = 0; i < state.images.length; i++) {
      if (state.images[i].id === imageId) {
         img = state.images[i];
         break;
@@ -65,31 +65,31 @@ function openTagPopover(imageId, anchorBtn) {
       return;
   }
 
-  var popover = document.createElement('div');
+  let popover = document.createElement('div');
   popover.className = 'popover';
   popover.id = 'tagPopover';
 
-  var searchInput = document.createElement('input');
+  let searchInput = document.createElement('input');
   searchInput.type = 'text';
   searchInput.className = 'popover-search';
   searchInput.placeholder = 'Search or add tag…';
   popover.appendChild(searchInput);
 
-  var list = document.createElement('div');
+  let list = document.createElement('div');
   list.className = 'popover-list';
   popover.appendChild(list);
 
   function buildTagList(query) {
     list.innerHTML = '';
 
-    var allTags = [];
-    for (var k = 0; k < state.images.length; k++) {
-       var tgs = state.images[k].tags;
+    let allTags = [];
+    for (let k = 0; k < state.images.length; k++) {
+       let tgs = state.images[k].tags;
        if (tgs) {
-          for (var tIdx = 0; tIdx < tgs.length; tIdx++) {
-             var t = tgs[tIdx];
-             var exists = false;
-             for (var aIdx = 0; aIdx < allTags.length; aIdx++) {
+          for (let tIdx = 0; tIdx < tgs.length; tIdx++) {
+             let t = tgs[tIdx];
+             let exists = false;
+             for (let aIdx = 0; aIdx < allTags.length; aIdx++) {
                  if (allTags[aIdx] === t) {
                     exists = true;
                     break;
@@ -103,17 +103,17 @@ function openTagPopover(imageId, anchorBtn) {
     }
     allTags.sort();
 
-    var currentTags = [];
+    let currentTags = [];
     if (img.tags) {
        currentTags = img.tags;
     }
     
-    var matches = [];
-    for (var m = 0; m < allTags.length; m++) {
-       var tag = allTags[m];
+    let matches = [];
+    for (let m = 0; m < allTags.length; m++) {
+       let tag = allTags[m];
        if (tag.toLowerCase().includes(query.toLowerCase())) {
-          var isApplied = false;
-          for (var c = 0; c < currentTags.length; c++) {
+          let isApplied = false;
+          for (let c = 0; c < currentTags.length; c++) {
              if (currentTags[c] === tag) {
                  isApplied = true;
                  break;
@@ -125,9 +125,9 @@ function openTagPopover(imageId, anchorBtn) {
        }
     }
 
-    for (var n = 0; n < matches.length; n++) {
-      var tagStr = matches[n];
-      var item = document.createElement('div');
+    for (let n = 0; n < matches.length; n++) {
+      let tagStr = matches[n];
+      let item = document.createElement('div');
       item.className = 'popover-item';
       item.textContent = tagStr;
       
@@ -141,18 +141,18 @@ function openTagPopover(imageId, anchorBtn) {
       list.appendChild(item);
     }
 
-    var trimmed = query.trim();
+    let trimmed = query.trim();
     
-    var alreadyExists = false;
-    for (var t2 = 0; t2 < allTags.length; t2++) {
+    let alreadyExists = false;
+    for (let t2 = 0; t2 < allTags.length; t2++) {
        if (allTags[t2].toLowerCase() === trimmed.toLowerCase()) {
           alreadyExists = true;
           break;
        }
     }
     
-    var alreadyApplied = false;
-    for (var c2 = 0; c2 < currentTags.length; c2++) {
+    let alreadyApplied = false;
+    for (let c2 = 0; c2 < currentTags.length; c2++) {
        if (currentTags[c2].toLowerCase() === trimmed.toLowerCase()) {
           alreadyApplied = true;
           break;
@@ -160,7 +160,7 @@ function openTagPopover(imageId, anchorBtn) {
     }
     
     if (trimmed !== "" && !alreadyExists && !alreadyApplied) {
-      var addItem = document.createElement('div');
+      let addItem = document.createElement('div');
       addItem.className = 'popover-item add-new';
       addItem.textContent = 'Add tag "' + trimmed + '"';
       
@@ -193,7 +193,7 @@ function openTagPopover(imageId, anchorBtn) {
   document.body.appendChild(popover);
   activeTagPopover = popover;
 
-  var rect = anchorBtn.getBoundingClientRect();
+  let rect = anchorBtn.getBoundingClientRect();
   popover.style.left = rect.left + 'px';
   popover.style.top = (rect.bottom + 6) + 'px';
 
@@ -203,8 +203,8 @@ function openTagPopover(imageId, anchorBtn) {
 }
 
 function addTagToImage(imageId, tag) {
-  var img = null;
-  for (var i = 0; i < state.images.length; i++) {
+  let img = null;
+  for (let i = 0; i < state.images.length; i++) {
      if (state.images[i].id === imageId) {
         img = state.images[i];
         break;
@@ -213,13 +213,13 @@ function addTagToImage(imageId, tag) {
   
   if (!img) return;
 
-  var existing = [];
+  let existing = [];
   if (img.tags) {
      existing = img.tags;
   }
   
-  var hasTag = false;
-  for (var j = 0; j < existing.length; j++) {
+  let hasTag = false;
+  for (let j = 0; j < existing.length; j++) {
      if (existing[j] === tag) {
         hasTag = true;
         break;
@@ -230,8 +230,8 @@ function addTagToImage(imageId, tag) {
      return;
   }
 
-  var newTags = [];
-  for (var k = 0; k < existing.length; k++) {
+  let newTags = [];
+  for (let k = 0; k < existing.length; k++) {
      newTags.push(existing[k]);
   }
   newTags.push(tag);
@@ -240,13 +240,13 @@ function addTagToImage(imageId, tag) {
   renderRightSidebar();
 }
 
-var activeFolderPopover = null;
+let activeFolderPopover = null;
 
 function openFolderPopover(imageId, anchorBtn) {
   closePopovers();
 
-  var img = null;
-  for (var i = 0; i < state.images.length; i++) {
+  let img = null;
+  for (let i = 0; i < state.images.length; i++) {
      if (state.images[i].id === imageId) {
         img = state.images[i];
         break;
@@ -255,17 +255,17 @@ function openFolderPopover(imageId, anchorBtn) {
   
   if (!img) return;
 
-  var popover = document.createElement('div');
+  let popover = document.createElement('div');
   popover.className = 'popover';
   popover.id = 'folderPopover';
 
-  for (var f = 0; f < state.folders.length; f++) {
-    var folder = state.folders[f];
+  for (let f = 0; f < state.folders.length; f++) {
+    let folder = state.folders[f];
     
-    var item = document.createElement('div');
+    let item = document.createElement('div');
     item.className = 'folder-pop-item';
 
-    var radio = document.createElement('input');
+    let radio = document.createElement('input');
     radio.type = 'radio';
     radio.name = 'folderPick';
     if (img.folder === folder.id) {
@@ -274,16 +274,16 @@ function openFolderPopover(imageId, anchorBtn) {
        radio.checked = false;
     }
 
-    var label = document.createElement('span');
-    var ICON_FOLDER = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 3C1 1.89543 1.89543 1 3 1H5C5.55228 1 6.08264 1.20092 6.4714 1.58969L7.5286 2.64689C7.91736 3.03566 8.44772 3.23658 9 3.23658H11C12.1046 3.23658 13 4.13201 13 5.23658V11C13 12.1046 12.1046 13 11 13H3C1.89543 13 1 12.1046 1 11V3Z" stroke="currentColor" stroke-width="1.6"/></svg>';
-    label.innerHTML = '<span style="color:var(--yellow);display:inline-flex;vertical-align:middle;margin-right:4px">' + ICON_FOLDER + '</span>' + escapeHtml(folder.name);
+    let label = document.createElement('span');
+    const ICON_FOLDER = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 3C1 1.89543 1.89543 1 3 1H5C5.55228 1 6.08264 1.20092 6.4714 1.58969L7.5286 2.64689C7.91736 3.03566 8.44772 3.23658 9 3.23658H11C12.1046 3.23658 13 4.13201 13 5.23658V11C13 12.1046 12.1046 13 11 13H3C1.89543 13 1 12.1046 1 11V3Z" stroke="currentColor" stroke-width="1.6"/></svg>';
+    label.innerHTML = '<span style="color:var(--yellow);display:inline-flex;vertical-align:middle;margin-right:4px">' + ICON_FOLDER + '</span>' + folder.name;
 
     item.appendChild(radio);
     item.appendChild(label);
 
     item.addEventListener('click', (function(fld) {
       return function () {
-        var newFolder = null;
+        let newFolder = null;
         if (img.folder !== fld.id) {
            newFolder = fld.id;
         }
@@ -297,18 +297,18 @@ function openFolderPopover(imageId, anchorBtn) {
     popover.appendChild(item);
   }
 
-  var newFolderItem = document.createElement('div');
+  let newFolderItem = document.createElement('div');
   newFolderItem.className = 'folder-pop-item add-new';
   newFolderItem.style.color = 'var(--accent)';
-  var ICON_PLUS_SM = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  const ICON_PLUS_SM = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
   newFolderItem.innerHTML = ICON_PLUS_SM + ' <span>New folder…</span>';
   
   newFolderItem.addEventListener('click', function () {
     closePopovers();
     createFolderInline(function (newName) {
       if (newName) {
-        var created = null;
-        for (var idx = 0; idx < state.folders.length; idx++) {
+        let created = null;
+        for (let idx = 0; idx < state.folders.length; idx++) {
            if (state.folders[idx].name === newName) {
               created = state.folders[idx];
               break;
@@ -326,7 +326,7 @@ function openFolderPopover(imageId, anchorBtn) {
   document.body.appendChild(popover);
   activeFolderPopover = popover;
 
-  var rect = anchorBtn.getBoundingClientRect();
+  let rect = anchorBtn.getBoundingClientRect();
   popover.style.left = rect.left + 'px';
   popover.style.top = (rect.bottom + 6) + 'px';
 }
@@ -347,17 +347,17 @@ function closePopovers() {
 }
 
 function createFolderInline(callback) {
-  var wrap = document.getElementById('newFolderInputWrap');
-  var input = document.getElementById('newFolderInput');
+  let wrap = document.getElementById('newFolderInputWrap');
+  let input = document.getElementById('newFolderInput');
   wrap.style.display = 'block';
   input.value = '';
   input.focus();
 
   function finish() {
-    var name = input.value.trim();
+    let name = input.value.trim();
     if (name !== "") {
-      var idStr = Date.now().toString(36) + Math.random().toString(36).slice(2);
-      var newFolder = { id: idStr, name: name };
+      let idStr = Date.now().toString(36) + Math.random().toString(36).slice(2);
+      let newFolder = { id: idStr, name: name };
       state.folders.push(newFolder);
       saveFolders();
       renderLeftSidebar();
@@ -402,8 +402,8 @@ function confirmDeleteFolder(folderId) {
     'Images in this folder will become uncategorized.',
     'Delete',
     function () {
-      var newFolders = [];
-      for (var f = 0; f < state.folders.length; f++) {
+      let newFolders = [];
+      for (let f = 0; f < state.folders.length; f++) {
          if (state.folders[f].id !== folderId) {
             newFolders.push(state.folders[f]);
          }
@@ -411,7 +411,7 @@ function confirmDeleteFolder(folderId) {
       state.folders = newFolders;
       saveFolders();
 
-      for (var i = 0; i < state.images.length; i++) {
+      for (let i = 0; i < state.images.length; i++) {
         if (state.images[i].folder === folderId) {
           state.images[i].folder = null;
         }
