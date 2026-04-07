@@ -116,7 +116,11 @@ function setupImportModal() {
     console.log("confirming import with title:", title);
     closeModal('importModal');
 
-    confirmImport(title);
+    if (pendingApiPhoto) {
+      confirmApiImport(title);
+    } else {
+      confirmImport(title);
+    }
   });
 
   cancelBtn.addEventListener('click', function () {
