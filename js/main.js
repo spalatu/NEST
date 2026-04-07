@@ -1,10 +1,7 @@
-console.log("main.js loaded");
 
-// wait for everything on the page to load before running
+
 window.addEventListener('load', function () {
-  console.log("page loaded, setting up app");
 
-  // render the initial UI
   renderLeftSidebar();
   renderGallery();
   renderRightSidebar();
@@ -31,7 +28,6 @@ function setupTopbar() {
   const emptyTrashBtn = document.getElementById('emptyTrashBtn');
 
   backBtn.addEventListener('click', function () {
-    console.log("back button clicked");
     if (state.navIndex > 0) {
       state.navIndex--;
       navigateTo(state.navHistory[state.navIndex], false);
@@ -39,7 +35,6 @@ function setupTopbar() {
   });
 
   fwdBtn.addEventListener('click', function () {
-    console.log("forward button clicked");
     if (state.navIndex < state.navHistory.length - 1) {
       state.navIndex++;
       navigateTo(state.navHistory[state.navIndex], false);
@@ -47,43 +42,35 @@ function setupTopbar() {
   });
 
   zoomSlider.addEventListener('input', function (e) {
-    const zoomValue = parseInt(e.target.value);
-    console.log("zoom changed to:", zoomValue);
+    var zoomValue = parseInt(e.target.value);
     setZoom(zoomValue);
   });
 
   searchInput.addEventListener('input', function (e) {
-    console.log("search input:", e.target.value);
     state.search = e.target.value;
     renderGallery();
   });
 
-  // clicking Import triggers the hidden file input
   importBtn.addEventListener('click', function () {
-    console.log("import button clicked");
     fileInput.click();
   });
 
   fileInput.addEventListener('change', function (e) {
-    console.log("files selected:", e.target.files.length);
     handleFiles(e.target.files);
     e.target.value = '';
   });
 
   apiBtn.addEventListener('click', function () {
-    console.log("api browser opened");
     openApiBrowser();
   });
 
   addFolderBtn.addEventListener('click', function () {
-    console.log("add folder clicked");
     createFolderInline(null);
   });
 
   emptyTrashBtn.addEventListener('click', function () {
     const trashedImages = state.images.filter(function (i) { return i.trashed; });
     const count = trashedImages.length;
-    console.log("emptying trash, items:", count);
 
     showConfirm(
       'Empty Trash',
@@ -108,11 +95,10 @@ function setupImportModal() {
   const modal = document.getElementById('importModal');
 
   titleInput.addEventListener('input', function () {
-    // disable the confirm button if the title is empty
+
     confirmBtn.disabled = !titleInput.value.trim();
   });
 
-  // allow pressing enter to confirm
   titleInput.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -127,17 +113,18 @@ function setupImportModal() {
     console.log("confirming import with title:", title);
     closeModal('importModal');
 
-    confirmImport(title);
+    if (pendingApiPhoto) {
+      confirmApiImport(title);
+    } else {
+      confirmImport(title);
+    }
   });
 
   cancelBtn.addEventListener('click', function () {
-    console.log("import cancelled");
     closeModal('importModal');
     window.pendingImport = null;
-    importQueue = [];
   });
 
-  // close modal when clicking the dark backdrop behind it
   modal.addEventListener('click', function (e) {
     if (e.target === modal) {
       closeModal('importModal');
@@ -152,7 +139,6 @@ function setupConfirmDialog() {
   const dialog = document.getElementById('confirmDialog');
 
   okBtn.addEventListener('click', function () {
-    console.log("confirm dialog: ok clicked");
     closeModal('confirmDialog');
     if (confirmCallback) {
       confirmCallback();
@@ -161,7 +147,6 @@ function setupConfirmDialog() {
   });
 
   cancelBtn.addEventListener('click', function () {
-    console.log("confirm dialog: cancel clicked");
     closeModal('confirmDialog');
     confirmCallback = null;
   });
@@ -182,11 +167,9 @@ function setupApiModal() {
   const modal = document.getElementById('apiModal');
 
   searchBtn.addEventListener('click', function () {
-    console.log("api search triggered");
     searchApi(true);
   });
 
-  // press enter in the search box to search
   searchInput.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
       searchApi(true);
@@ -194,7 +177,6 @@ function setupApiModal() {
   });
 
   loadMoreBtn.addEventListener('click', function () {
-    console.log("loading more api results");
     searchApi(false);
   });
 
@@ -223,6 +205,7 @@ function setupContextMenu() {
 
   exportPng.addEventListener('click', function () {
     if (contextTargetId) {
+
       const img = state.images.find(function (i) { return i.id === contextTargetId; });
       if (img) {
         exportImage(img, 'png');
@@ -241,7 +224,6 @@ function setupContextMenu() {
     hideContextMenu();
   });
 
-  // clicking anywhere outside the menu closes it
   document.addEventListener('click', function (e) {
     const menu = document.getElementById('contextMenu');
     if (!menu.contains(e.target)) {
@@ -275,14 +257,15 @@ function setupDragDrop() {
   gallery.addEventListener('drop', function (e) {
     e.preventDefault();
     overlay.classList.remove('active');
-    console.log("files dropped:", e.dataTransfer.files.length);
-    handleFiles(e.dataTransfer.files);
+    const droppedFiles = e.dataTransfer.files;
+    console.log("files dropped:", droppedFiles.length);
+    handleFiles(droppedFiles);
   });
 }
 
 function setupKeyboard() {
   document.addEventListener('keydown', function (e) {
-    // don't intercept if user is typing in an input
+
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
     if ((e.key === 'Delete' || e.key === 'Backspace') && state.selectedId) {
@@ -302,7 +285,6 @@ function setupKeyboard() {
     }
   });
 
-  // re-render gallery when window is resized so columns adjust
   window.addEventListener('resize', function () {
     renderGallery();
   });

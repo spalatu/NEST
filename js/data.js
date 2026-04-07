@@ -1,4 +1,4 @@
-var state = {
+let state = {
   images: [],
   folders: [],
   activeFolder: 'all',
@@ -9,12 +9,13 @@ var state = {
   navIndex: 0
 };
 
-var LS_IMAGES = 'nest_images';
-var LS_FOLDERS = 'nest_folders';
+const LS_IMAGES = 'nest_images';
+const LS_FOLDERS = 'nest_folders';
 
-function loadStorage() { return;
-  var imagesRaw = localStorage.getItem(LS_IMAGES);
-  var foldersRaw = localStorage.getItem(LS_FOLDERS);
+function loadStorage() {
+  console.log("loading saved images...");
+  let imagesRaw = localStorage.getItem(LS_IMAGES);
+  let foldersRaw = localStorage.getItem(LS_FOLDERS);
 
   if (imagesRaw) {
     state.images = JSON.parse(imagesRaw);
@@ -29,7 +30,7 @@ function loadStorage() { return;
   }
 }
 
-function saveImages() { return;
+function saveImages() {
   try {
     localStorage.setItem(LS_IMAGES, JSON.stringify(state.images));
   } catch (err) {
@@ -38,7 +39,7 @@ function saveImages() { return;
   }
 }
 
-function saveFolders() { return;
+function saveFolders() {
   try {
     localStorage.setItem(LS_FOLDERS, JSON.stringify(state.folders));
   } catch (err) {
@@ -52,24 +53,24 @@ function addImage(img) {
 }
 
 function updateImage(id, patch) {
-  var idx = -1;
-  for (var i = 0; i < state.images.length; i++) {
+  let idx = -1;
+  for (let i = 0; i < state.images.length; i++) {
     if (state.images[i].id === id) {
       idx = i;
       break;
     }
   }
-  
+
   if (idx === -1) {
     return;
   }
 
-  var currentImage = state.images[idx];
-  for (var key in patch) {
+  let currentImage = state.images[idx];
+  for (let key in patch) {
     currentImage[key] = patch[key];
   }
-  currentImage.dateModified = nowISO();
-  
+  currentImage.dateModified = new Date().toISOString();
+
   state.images[idx] = currentImage;
   saveImages();
 
@@ -91,14 +92,14 @@ function trashImage(id) {
 }
 
 function getFilteredImages() {
-  var q = state.search.toLowerCase().trim();
-  var sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-  
-  var filtered = [];
+  let q = state.search.toLowerCase().trim();
+  let sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
 
-  for (var i = 0; i < state.images.length; i++) {
-    var img = state.images[i];
-    var keep = true;
+  let filtered = [];
+
+  for (let i = 0; i < state.images.length; i++) {
+    let img = state.images[i];
+    let keep = true;
 
     if (state.activeFolder === 'trash') {
       if (img.trashed !== true) {
@@ -109,7 +110,7 @@ function getFilteredImages() {
         keep = false;
       } else {
         if (state.activeFolder === 'all') {
-          // keep is true
+
         } else if (state.activeFolder === 'uncategorized') {
           if (img.folder) {
             keep = false;
@@ -119,7 +120,7 @@ function getFilteredImages() {
             keep = false;
           }
         } else if (state.activeFolder === 'recent') {
-          var modTime = new Date(img.dateModified).getTime();
+          let modTime = new Date(img.dateModified).getTime();
           if (modTime < sevenDaysAgo) {
             keep = false;
           }
@@ -132,15 +133,15 @@ function getFilteredImages() {
     }
 
     if (keep && q !== "") {
-      var title = img.title.toLowerCase();
-      var desc = "";
+      let title = img.title.toLowerCase();
+      let desc = "";
       if (img.description) {
          desc = img.description.toLowerCase();
       }
-      
-      var inTitle = title.includes(q);
-      var inDesc = desc.includes(q);
-      
+
+      let inTitle = title.includes(q);
+      let inDesc = desc.includes(q);
+
       if (inTitle === false && inDesc === false) {
         keep = false;
       }
@@ -155,19 +156,19 @@ function getFilteredImages() {
 }
 
 function getFolderCount(folderId) {
-  var sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-  var count = 0;
+  let sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+  let count = 0;
 
-  for (var i = 0; i < state.images.length; i++) {
-    var img = state.images[i];
-    
+  for (let i = 0; i < state.images.length; i++) {
+    let img = state.images[i];
+
     if (folderId === 'trash') {
        if (img.trashed === true) {
           count++;
        }
        continue;
     }
-    
+
     if (img.trashed === true) {
        continue;
     }
@@ -183,7 +184,7 @@ function getFolderCount(folderId) {
         count++;
       }
     } else if (folderId === 'recent') {
-      var modTime = new Date(img.dateModified).getTime();
+      let modTime = new Date(img.dateModified).getTime();
       if (modTime >= sevenDaysAgo) {
         count++;
       }
@@ -193,42 +194,6 @@ function getFolderCount(folderId) {
       }
     }
   }
-  
+
   return count;
-}
-
-function generateId() {
-  var ranStr = Math.random().toString(36).slice(2);
-  return Date.now().toString(36) + ranStr;
-}
-
-function nowISO() {
-  return new Date().toISOString();
-}
-
-function formatBytes(bytes) {
-  if (bytes < 1024) {
-    return bytes + ' B';
-  } else if (bytes < 1024 * 1024) {
-    return (bytes / 1024).toFixed(1) + ' KB';
-  } else {
-    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
-  }
-}
-
-function formatDate(isoString) {
-  if (!isoString) {
-    return '—';
-  }
-  var d = new Date(isoString);
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
-
-function escapeHtml(str) {
-  var s = String(str);
-  s = s.split('&').join('&amp;');
-  s = s.split('<').join('&lt;');
-  s = s.split('>').join('&gt;');
-  s = s.split('"').join('&quot;');
-  return s;
 }
