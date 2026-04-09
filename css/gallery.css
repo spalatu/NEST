@@ -1,6 +1,4 @@
-/* =====================================================
-   gallery.css — Masonry Gallery + Image Cards
-   ===================================================== */
+
 
 #gallery {
   flex: 1;
@@ -26,7 +24,6 @@
   flex-shrink: 0;
 }
 
-/* Image cards */
 .img-card {
   border-radius: var(--radius-card);
   overflow: hidden;
@@ -70,7 +67,6 @@
   font-family: var(--font-mono);
 }
 
-/* Drop overlay */
 #dropOverlay {
   display: none;
   position: absolute;
@@ -83,7 +79,6 @@
 }
 #dropOverlay.active { display: block; }
 
-/* Empty state */
 #galleryEmpty {
   position: absolute;
   top: 50%;

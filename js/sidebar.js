@@ -38,12 +38,12 @@ function renderSmartFolders() {
   for (let i = 0; i < SMART_FOLDERS.length; i++) {
     let folder = SMART_FOLDERS[i];
     let item = document.createElement('div');
-    
+
     item.className = 'folder-item';
     if (state.activeFolder === folder.id) {
        item.className += ' active';
     }
-    
+
     item.innerHTML =
       '<span class="folder-icon">' + folder.icon + '</span>' +
       '<span class="folder-name">' + folder.label + '</span>' +
@@ -66,7 +66,7 @@ function renderUserFolders() {
   for (let i = 0; i < state.folders.length; i++) {
     let folder = state.folders[i];
     let item = document.createElement('div');
-    
+
     item.className = 'folder-item';
     if (state.activeFolder === folder.id) {
        item.className += ' active';
@@ -76,7 +76,7 @@ function renderUserFolders() {
     deleteBtn.className = 'folder-delete-btn';
     deleteBtn.title = 'Delete folder';
     deleteBtn.innerHTML = '<svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 1l7 7M8 1L1 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
-    
+
     deleteBtn.addEventListener('click', (function(f) {
       return function (e) {
         e.stopPropagation();
@@ -88,7 +88,7 @@ function renderUserFolders() {
       '<span class="folder-icon" style="color:var(--yellow)">' + ICON_FOLDER + '</span>' +
       '<span class="folder-name">' + folder.name + '</span>' +
       '<span class="folder-count">' + getFolderCount(folder.id) + '</span>';
-      
+
     item.appendChild(deleteBtn);
 
     item.addEventListener('click', (function(fid) {
@@ -112,7 +112,7 @@ function navigateTo(folderId, addToHistory) {
        newHistory.push(state.navHistory[i]);
     }
     state.navHistory = newHistory;
-    
+
     if (state.navHistory[state.navIndex] !== folderId) {
       state.navHistory.push(folderId);
       state.navIndex++;
@@ -133,13 +133,13 @@ function navigateTo(folderId, addToHistory) {
 function updateNavButtons() {
   let backBtn = document.getElementById('backBtn');
   let fwdBtn = document.getElementById('fwdBtn');
-  
+
   if (state.navIndex <= 0) {
       backBtn.disabled = true;
   } else {
       backBtn.disabled = false;
   }
-  
+
   if (state.navIndex >= state.navHistory.length - 1) {
       fwdBtn.disabled = true;
   } else {
@@ -164,7 +164,7 @@ function renderRightSidebar() {
         break;
      }
   }
-  
+
   if (!img) {
     emptyPanel.style.display = 'flex';
     detailPanel.style.display = 'none';
@@ -313,14 +313,13 @@ function makeSourceContent(img) {
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.className = 'rs-source-link';
-    
-    // safe truncate text content
+
     let sText = img.source;
     if (sText.length > 30) {
        sText = sText.substring(0, 30) + '...';
     }
     link.textContent = sText;
-    
+
     wrap.appendChild(link);
   }
 
@@ -337,7 +336,7 @@ function makeTagsContent(img) {
   if (img.tags) {
      tags = img.tags;
   }
-  
+
   for (let i = 0; i < tags.length; i++) {
     let tag = tags[i];
     let chip = document.createElement('div');
@@ -421,7 +420,7 @@ function makePropertiesContent(img) {
   if (img.fileType) {
      fType = img.fileType.toUpperCase();
   }
-  
+
   let fSize = '—';
   if (img.fileSize) {
      fSize = img.fileSize;
@@ -438,7 +437,7 @@ function makePropertiesContent(img) {
 
   for (let i = 0; i < rows.length; i++) {
     let row = rows[i];
-    
+
     let label = document.createElement('div');
     label.className = 'prop-label';
     label.textContent = row[0];

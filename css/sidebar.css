@@ -1,8 +1,5 @@
-/* =====================================================
-   sidebar.css — Left Sidebar + Right Sidebar
-   ===================================================== */
 
-/* ── LEFT SIDEBAR ── */
+
 #leftSidebar {
   width: var(--sidebar-l);
   flex-shrink: 0;
@@ -50,7 +47,6 @@
 }
 .sidebar-add-btn:hover { background: var(--bg3); color: var(--text1); }
 
-/* Folder items */
 .folder-item {
   display: flex;
   align-items: center;
@@ -106,7 +102,6 @@
 .folder-item:hover .folder-delete-btn { display: flex; }
 .folder-delete-btn:hover { background: rgba(255, 69, 58, 0.15); color: var(--danger); }
 
-/* Inline folder name input */
 .folder-inline-input {
   height: 28px;
   border-radius: var(--radius-ui);
@@ -121,7 +116,6 @@
   width: calc(100% - 28px);
 }
 
-/* Sidebar footer (empty trash) */
 .sidebar-footer {
   padding: 10px 14px;
   border-top: 1px solid var(--border);
@@ -142,7 +136,6 @@
 }
 #emptyTrashBtn:hover { background: rgba(255, 69, 58, 0.12); }
 
-/* ── RIGHT SIDEBAR ── */
 #rightSidebar {
   width: var(--sidebar-r);
   flex-shrink: 0;
@@ -153,7 +146,6 @@
   overflow: hidden;
 }
 
-/* Empty state */
 #rsEmpty {
   flex: 1;
   display: flex;
@@ -165,7 +157,6 @@
 }
 #rsEmpty p { font-size: 13px; }
 
-/* Detail panel */
 #rsDetail {
   flex: 1;
   overflow-y: auto;
@@ -173,7 +164,6 @@
   flex-direction: column;
 }
 
-/* Image preview */
 #rsPreview {
   width: 100%;
   aspect-ratio: 16/10;
@@ -186,7 +176,6 @@
 }
 #rsPreview img { width: 100%; height: 100%; object-fit: contain; }
 
-/* Collapsible sections */
 .rs-sections { padding-bottom: 16px; }
 
 .rs-section { border-bottom: 1px solid var(--border); }
@@ -220,7 +209,6 @@
 .rs-section-body { padding: 0 14px 12px; display: none; }
 .rs-section.open .rs-section-body { display: block; }
 
-/* Textarea and input fields */
 .rs-textarea {
   width: 100%;
   min-height: 72px;
@@ -261,7 +249,6 @@
 }
 .rs-input::placeholder { color: var(--text3); }
 
-/* Source URL */
 .rs-source-wrap { position: relative; display: flex; align-items: center; }
 .rs-source-icon { position: absolute; left: 9px; color: var(--text3); display: flex; pointer-events: none; }
 .rs-source-wrap .rs-input { padding-left: 30px; }
@@ -278,7 +265,6 @@
 }
 .rs-source-link:hover { text-decoration: underline; }
 
-/* Tag chips */
 .tag-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
 
 .tag-chip {
@@ -330,7 +316,6 @@
   background: rgba(10, 132, 255, 0.07);
 }
 
-/* Folder pill + move button */
 .folder-pill {
   display: inline-flex;
   align-items: center;
@@ -366,7 +351,6 @@
   background: rgba(10, 132, 255, 0.07);
 }
 
-/* Properties grid */
 .props-grid {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -376,7 +360,6 @@
 .prop-label { font-size: 11.5px; color: var(--text3); white-space: nowrap; }
 .prop-value { font-family: var(--font-mono); font-size: 11.5px; color: var(--text2); word-break: break-all; }
 
-/* Color swatches */
 .color-strip {
   display: flex;
   height: 32px;
@@ -411,7 +394,6 @@
 .color-tooltip.hidden { opacity: 0; transform: scale(0.85) translateY(4px); }
 .color-tooltip.visible { opacity: 1; transform: scale(1) translateY(0); }
 
-/* Export buttons */
 .export-row { display: flex; gap: 8px; }
 
 .export-btn {

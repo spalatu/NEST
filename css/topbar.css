@@ -1,6 +1,4 @@
-/* =====================================================
-   topbar.css — Top Navigation Bar
-   ===================================================== */
+
 
 #topbar {
   position: fixed;
@@ -29,7 +27,6 @@
 
 .tb-spacer { flex: 1; }
 
-/* Navigation arrow buttons */
 .tb-nav-btn {
   width: 28px;
   height: 28px;
@@ -48,7 +45,6 @@
 .tb-nav-btn:disabled { opacity: 0.3; cursor: default; }
 .tb-nav-btn:disabled:hover { background: transparent; }
 
-/* Zoom slider */
 .tb-zoom-wrap {
   display: flex;
   align-items: center;
@@ -88,7 +84,6 @@
 }
 .tb-zoom-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
 
-/* Search input */
 .tb-search-wrap { position: relative; flex-shrink: 0; }
 
 .tb-search-icon {
@@ -121,7 +116,6 @@
 }
 #searchInput::placeholder { color: var(--text3); }
 
-/* Topbar buttons */
 .tb-btn {
   height: 30px;
   padding: 0 12px;
