@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nest — Design Asset Manager</title>
-    
-    <!-- External CSS -->
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/topbar.css">
     <link rel="stylesheet" href="css/sidebar.css">
@@ -14,7 +13,6 @@
 </head>
 <body>
 
-    <!-- TOPBAR -->
     <header id="topbar">
         <button class="tb-nav-btn" id="backBtn" title="Back" disabled>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7L9 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -47,10 +45,8 @@
         <input type="file" id="fileInput" multiple accept="image/*" style="display:none">
     </header>
 
-    <!-- APP BODY -->
     <main id="app">
 
-        <!-- LEFT SIDEBAR -->
         <aside id="leftSidebar">
             <div class="sidebar-inner">
                 <div class="sidebar-section-header">
@@ -64,7 +60,7 @@
                     </button>
                 </div>
                 <div id="userFolders"></div>
-                <!-- Inline input for new folder -->
+
                 <div id="newFolderInputWrap" style="display:none">
                     <input type="text" class="folder-inline-input" id="newFolderInput" placeholder="Folder name…">
                 </div>
@@ -74,7 +70,6 @@
             </div>
         </aside>
 
-        <!-- GALLERY -->
         <section id="gallery">
             <div id="galleryInner"></div>
             <div id="dropOverlay"></div>
@@ -84,7 +79,6 @@
             </div>
         </section>
 
-        <!-- RIGHT SIDEBAR -->
         <aside id="rightSidebar">
             <div id="rsEmpty">
                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="6" width="28" height="24" rx="4" stroke="currentColor" stroke-width="1.5"/><circle cx="13" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M4 24l7-5 5 4 5-4 7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -98,7 +92,6 @@
 
     </main>
 
-    <!-- CONTEXT MENU -->
     <div id="contextMenu">
         <div class="ctx-item" id="ctxTrash">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3.5h9M5 3.5V2.5a1 1 0 012 0v1M4.5 3.5l.5 7h3l.5-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -115,10 +108,8 @@
         </div>
     </div>
 
-    <!-- COLOR TOOLTIP -->
     <div class="color-tooltip hidden" id="colorTooltip"></div>
 
-    <!-- MODALS -->
     <div class="modal-backdrop" id="importModal">
         <div class="modal-card">
             <div class="modal-title" id="importModalTitle">Add to Nest</div>
@@ -143,25 +134,24 @@
 
     <div class="modal-backdrop" id="apiModal">
         <div class="modal-card">
-            <div class="unsplash-header">
-                <div class="unsplash-title">Browse Unsplash</div>
-                <div class="unsplash-search-row">
-                    <input type="text" class="unsplash-search-input" id="apiSearchInput" placeholder="Search imagery…">
-                    <button class="unsplash-search-btn" id="apiSearchBtn">Search</button>
-                    <button class="unsplash-close-btn" id="apiCloseBtn">✕ Close</button>
+            <div class="pexels-header">
+                <div class="pexels-title">Browse Unsplash</div>
+                <div class="pexels-search-row">
+                    <input type="text" class="pexels-search-input" id="apiSearchInput" placeholder="Search imagery…">
+                    <button class="pexels-search-btn" id="apiSearchBtn">Search</button>
+                    <button class="pexels-close-btn" id="apiCloseBtn">✕ Close</button>
                 </div>
             </div>
-            <div class="unsplash-body" id="apiBody">
-                <div class="unsplash-status" id="apiStatus">Searching…</div>
-                <div class="unsplash-grid" id="apiGrid"></div>
+            <div class="pexels-body" id="apiBody">
+                <div class="pexels-status" id="apiStatus">Searching…</div>
+                <div class="pexels-grid" id="apiGrid"></div>
             </div>
-            <div class="unsplash-footer">
-                <button class="unsplash-load-more" id="apiLoadMore" style="display:none;">Load more</button>
+            <div class="pexels-footer">
+                <button class="pexels-load-more" id="apiLoadMore" style="display:none;">Load more</button>
             </div>
         </div>
     </div>
 
-    <!-- External JS Scripts (Professor Style: Flat, Simple) -->
     <script src="js/data.js"></script>
     <script src="js/gallery.js"></script>
     <script src="js/sidebar.js"></script>

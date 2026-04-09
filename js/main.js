@@ -1,8 +1,9 @@
 
-// wait for everything on the page to load before running
+
 window.addEventListener('load', function () {
 
-  // render the initial UI
+  loadStorage();
+
   renderLeftSidebar();
   renderGallery();
   renderRightSidebar();
@@ -52,7 +53,6 @@ function setupTopbar() {
     renderGallery();
   });
 
-  // clicking Import triggers the hidden file input
   importBtn.addEventListener('click', function () {
     fileInput.click();
   });
@@ -97,11 +97,10 @@ function setupImportModal() {
   const modal = document.getElementById('importModal');
 
   titleInput.addEventListener('input', function () {
-    // disable the confirm button if the title is empty
+
     confirmBtn.disabled = !titleInput.value.trim();
   });
 
-  // allow pressing enter to confirm
   titleInput.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -128,7 +127,6 @@ function setupImportModal() {
     window.pendingImport = null;
   });
 
-  // close modal when clicking the dark backdrop behind it
   modal.addEventListener('click', function (e) {
     if (e.target === modal) {
       closeModal('importModal');
@@ -174,7 +172,6 @@ function setupApiModal() {
     searchApi(true);
   });
 
-  // press enter in the search box to search
   searchInput.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
       searchApi(true);
@@ -210,7 +207,7 @@ function setupContextMenu() {
 
   exportPng.addEventListener('click', function () {
     if (contextTargetId) {
-      // let img = state.images.filter(function (i) { return i.id === contextTargetId; })[0];
+
       const img = state.images.find(function (i) { return i.id === contextTargetId; });
       if (img) {
         exportImage(img, 'png');
@@ -229,7 +226,6 @@ function setupContextMenu() {
     hideContextMenu();
   });
 
-  // clicking anywhere outside the menu closes it
   document.addEventListener('click', function (e) {
     const menu = document.getElementById('contextMenu');
     if (!menu.contains(e.target)) {
@@ -271,7 +267,7 @@ function setupDragDrop() {
 
 function setupKeyboard() {
   document.addEventListener('keydown', function (e) {
-    // don't intercept if user is typing in an input
+
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
     if ((e.key === 'Delete' || e.key === 'Backspace') && state.selectedId) {
@@ -291,7 +287,6 @@ function setupKeyboard() {
     }
   });
 
-  // re-render gallery when window is resized so columns adjust
   window.addEventListener('resize', function () {
     renderGallery();
   });

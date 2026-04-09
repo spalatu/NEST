@@ -8,7 +8,6 @@ function closeModal(id) {
   modal.className = modal.className.replace(' open', '');
 }
 
-// ── Confirm dialog (replaces window.confirm) ──
 let confirmCallback = null;
 
 function showConfirm(title, message, actionLabel, callback) {
@@ -32,12 +31,12 @@ function showContextMenu(e, imageId) {
   if (x > window.innerWidth - menu.offsetWidth - 8) {
      x = window.innerWidth - menu.offsetWidth - 8;
   }
-  
+
   let y = e.clientY;
   if (y > window.innerHeight - menu.offsetHeight - 8) {
      y = window.innerHeight - menu.offsetHeight - 8;
   }
-  
+
   menu.style.left = x + 'px';
   menu.style.top = y + 'px';
 }
@@ -47,7 +46,6 @@ function hideContextMenu() {
   contextTargetId = null;
 }
 
-// ── Tag popover ──
 let activeTagPopover = null;
 
 function openTagPopover(imageId, anchorBtn) {
@@ -60,7 +58,7 @@ function openTagPopover(imageId, anchorBtn) {
         break;
      }
   }
-  
+
   if (!img) {
       return;
   }
@@ -107,7 +105,7 @@ function openTagPopover(imageId, anchorBtn) {
     if (img.tags) {
        currentTags = img.tags;
     }
-    
+
     let matches = [];
     for (let m = 0; m < allTags.length; m++) {
        let tag = allTags[m];
@@ -130,19 +128,19 @@ function openTagPopover(imageId, anchorBtn) {
       let item = document.createElement('div');
       item.className = 'popover-item';
       item.textContent = tagStr;
-      
+
       item.addEventListener('click', (function(t) {
         return function () {
           addTagToImage(imageId, t);
           closePopovers();
         };
       })(tagStr));
-      
+
       list.appendChild(item);
     }
 
     let trimmed = query.trim();
-    
+
     let alreadyExists = false;
     for (let t2 = 0; t2 < allTags.length; t2++) {
        if (allTags[t2].toLowerCase() === trimmed.toLowerCase()) {
@@ -150,7 +148,7 @@ function openTagPopover(imageId, anchorBtn) {
           break;
        }
     }
-    
+
     let alreadyApplied = false;
     for (let c2 = 0; c2 < currentTags.length; c2++) {
        if (currentTags[c2].toLowerCase() === trimmed.toLowerCase()) {
@@ -158,12 +156,12 @@ function openTagPopover(imageId, anchorBtn) {
           break;
        }
     }
-    
+
     if (trimmed !== "" && !alreadyExists && !alreadyApplied) {
       let addItem = document.createElement('div');
       addItem.className = 'popover-item add-new';
       addItem.textContent = 'Add tag "' + trimmed + '"';
-      
+
       addItem.addEventListener('click', function () {
         addTagToImage(imageId, trimmed);
         closePopovers();
@@ -210,14 +208,14 @@ function addTagToImage(imageId, tag) {
         break;
      }
   }
-  
+
   if (!img) return;
 
   let existing = [];
   if (img.tags) {
      existing = img.tags;
   }
-  
+
   let hasTag = false;
   for (let j = 0; j < existing.length; j++) {
      if (existing[j] === tag) {
@@ -225,7 +223,7 @@ function addTagToImage(imageId, tag) {
         break;
      }
   }
-  
+
   if (hasTag) {
      return;
   }
@@ -235,7 +233,7 @@ function addTagToImage(imageId, tag) {
      newTags.push(existing[k]);
   }
   newTags.push(tag);
-  
+
   updateImage(imageId, { tags: newTags });
   renderRightSidebar();
 }
@@ -252,7 +250,7 @@ function openFolderPopover(imageId, anchorBtn) {
         break;
      }
   }
-  
+
   if (!img) return;
 
   let popover = document.createElement('div');
@@ -261,7 +259,7 @@ function openFolderPopover(imageId, anchorBtn) {
 
   for (let f = 0; f < state.folders.length; f++) {
     let folder = state.folders[f];
-    
+
     let item = document.createElement('div');
     item.className = 'folder-pop-item';
 
@@ -302,7 +300,7 @@ function openFolderPopover(imageId, anchorBtn) {
   newFolderItem.style.color = 'var(--accent)';
   const ICON_PLUS_SM = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
   newFolderItem.innerHTML = ICON_PLUS_SM + ' <span>New folder…</span>';
-  
+
   newFolderItem.addEventListener('click', function () {
     closePopovers();
     createFolderInline(function (newName) {
