@@ -19,39 +19,45 @@ function handleFiles(files) {
     console.log("file loaded via FileReader");
     let src = e.target.result;
 
-    window.pendingImport = {
-      src: src,
-      fileSize: Math.round(file.size / 1024) + ' KB',
+    let tempImg = new Image();
+    tempImg.onload = function () {
+      window.pendingImport = {
+        src: src,
+        width: tempImg.naturalWidth,
+        height: tempImg.naturalHeight,
+        fileSize: Math.round(file.size / 1024) + ' KB',
 
-      fileType: 'jpeg',
-      colors: []
-    };
+        fileType: 'jpeg',
+        colors: []
+      };
 
-    extractColors(src, function (colors) {
-      if (window.pendingImport) {
-        window.pendingImport.colors = colors;
+      extractColors(src, function (colors) {
+        if (window.pendingImport) {
+          window.pendingImport.colors = colors;
+        }
+      });
+
+      let nameParts = file.name.split('.');
+      if (nameParts.length > 1) {
+         nameParts.pop();
       }
-    });
+      let guessedTitle = nameParts.join('.').replace(/[-_]/g, ' ').trim();
 
-    let nameParts = file.name.split('.');
-    if (nameParts.length > 1) {
-       nameParts.pop();
-    }
-    let guessedTitle = nameParts.join('.').replace(/[-_]/g, ' ').trim();
+      let input = document.getElementById('importTitleInput');
+      input.value = guessedTitle;
 
-    let input = document.getElementById('importTitleInput');
-    input.value = guessedTitle;
+      if (guessedTitle === '') {
+         document.getElementById('importConfirmBtn').disabled = true;
+      } else {
+         document.getElementById('importConfirmBtn').disabled = false;
+      }
 
-    if (guessedTitle === '') {
-       document.getElementById('importConfirmBtn').disabled = true;
-    } else {
-       document.getElementById('importConfirmBtn').disabled = false;
-    }
+      document.getElementById('importModalTitle').textContent = 'Add to Nest';
 
-    document.getElementById('importModalTitle').textContent = 'Add to Nest';
-
-    openModal('importModal');
-    input.select();
+      openModal('importModal');
+      input.select();
+    };
+    tempImg.src = src;
   };
 
   reader.readAsDataURL(file);
@@ -67,8 +73,8 @@ function confirmImport(title) {
     id: id,
     title: title,
     src: window.pendingImport.src,
-    width: 0,
-    height: 0,
+    width: window.pendingImport.width || 0,
+    height: window.pendingImport.height || 0,
     fileSize: window.pendingImport.fileSize,
     fileType: window.pendingImport.fileType,
     description: '',
